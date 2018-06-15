@@ -15,7 +15,7 @@ def count_bits(x):
     count = 0
     while x:
         count += 1
-        x = x & (x - 1)
+        x &= x - 1
     return count
 
 
