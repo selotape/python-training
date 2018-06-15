@@ -34,6 +34,7 @@ def count_bits(x):
 
 _parity_cache = {n: _brute_parity(n) for n in range(1 << 16)}
 
+
 ### Swap Bits ###
 
 def get_bit(num, i):
@@ -55,6 +56,13 @@ def swap_bits(num, i, j):
     return num + new_ith + new_jth
 
 
+def swap_bits2(num, i, j):
+    if num >> i & 1 != num >> j & 1:
+        mask = 1 << i | 1 << j
+        num ^= mask
+    return num
+
+
 def test_parity():
     assert parity(0) == 0
     assert parity(1) == 1
@@ -68,7 +76,9 @@ def test_subwords():
 
 def test_swap_bits():
     assert swap_bits(2, 0, 1) == 1
-    assert swap_bits(1, 0, 10) == 1024
+    assert swap_bits(2, 0, 1) == 1
+    assert swap_bits2(2, 0, 1) == 1
+    assert swap_bits2(1, 0, 10) == 1024
 
 
 if __name__ == '__main__':
