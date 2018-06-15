@@ -3,6 +3,8 @@ import sys
 import pytest
 
 
+### Parity ###
+
 def subwords(x, length):
     mask = (1 << (length)) - 1
     while x:
@@ -32,6 +34,26 @@ def count_bits(x):
 
 _parity_cache = {n: _brute_parity(n) for n in range(1 << 16)}
 
+### Swap Bits ###
+
+def get_bit(num, i):
+    mask = 1 << i
+    ith = num & mask
+    return 1 if ith else 0
+
+
+def clear_bit(num, i):
+    mask = ~(1 << i)
+    return num & mask
+
+
+def swap_bits(num, i, j):
+    new_jth = get_bit(num, i) << j
+    new_ith = get_bit(num, j) << i
+    num = clear_bit(num, j)
+    num = clear_bit(num, i)
+    return num + new_ith + new_jth
+
 
 def test_parity():
     assert parity(0) == 0
@@ -42,6 +64,11 @@ def test_parity():
 def test_subwords():
     assert list(subwords(7, 1)) == [1, 1, 1]
     assert list(subwords(1 << 4, 2)) == [0, 0, 1]
+
+
+def test_swap_bits():
+    assert swap_bits(2, 0, 1) == 1
+    assert swap_bits(1, 0, 10) == 1024
 
 
 if __name__ == '__main__':
